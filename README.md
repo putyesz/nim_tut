@@ -1,1 +1,1 @@
-# nim_tut
+# Tutorial application for Nim Programming language

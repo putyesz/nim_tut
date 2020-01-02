@@ -1,3 +1,4 @@
+#Tóth Bence WDFP8X
 import winim/lean
 
 proc WindowProc(hwnd: HWND, message: UINT, wParam: WPARAM, lParam: LPARAM): LRESULT {.stdcall.} =

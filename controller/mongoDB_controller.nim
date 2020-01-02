@@ -1,3 +1,4 @@
+#Tóth Bence WDFP8X
 import asyncdispatch  ## Nim async-supportive functions here
 import oids
 
@@ -5,16 +6,16 @@ import nimongo/bson   ## MongoDB BSON serialization/deserialization
 import nimongo/mongo  ## MongoDB client
 
 ## Create new Mongo client
-var m: AsyncMongo = newAsyncMongo().slaveOk(false)  ## Still Mongo type
+var m: Mongo = newMongo(host="localhost", port=27017)  ## Still Mongo type
 
 ## Connect to Mongo server with asynchronous socket
-let connected = waitFor(m.connect())
+let connected = m.connect()
 
 ## Testing connection establishing result
-echo "Async connection established: ", connected
+echo "Connection established: ", connected
 
 ## Inserting single document into MongoDB
-waitFor(m.insert(B("hello-async", "victory")))
+m.insert()
 
 ## Inserting multiple documents into MongoDB
 let
