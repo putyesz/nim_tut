@@ -1,15 +1,5 @@
 {
-  "sqltools.connections": [
-    {
-      "database": "nim_tut",
-      "dialect": "MySQL",
-      "isActive": false,
-      "isConnected": false,
-      "name": "nim_tutorial_mysql",
-      "password": "Ab123456",
-      "port": 3306,
-      "server": "localhost",
-      "username": "root"
-    }
-  ]
+  "editor.trimAutoWhitespace": false,
+  "editor.tabSize": 2,
+  "editor.renderWhitespace": "all"
 }
