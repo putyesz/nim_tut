@@ -10,11 +10,13 @@
 *.gadget
 *.jar
 *.pif
+*.png
 *.vb
 *.wsf
 
 ### Nim ###
 nimcache/
+*test.nim
 
 ### VisualStudioCode ###
 .vscode/*

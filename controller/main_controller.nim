@@ -1,5 +1,10 @@
 #Tóth Bence WDFP8X
-include ../view/main_window
+include ../view/language_window
+include postgreSQL_controller
 
 proc startApp() =
-  main()
+  var n : int
+  if lang_start() == 1:
+    echo "hu"
+  else:
+    echo "en"
