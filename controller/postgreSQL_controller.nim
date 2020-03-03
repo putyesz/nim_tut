@@ -3,27 +3,74 @@ import db_postgres
 import strutils
 include ../model/row_model
 
-# need some more stuff for the 2 languages
+var
+  conn, user, pass, sche : string
+
+conn = "localhost"
+user = "postgres"
+pass = "Ab123456"
+sche = "nim_tut"
+
+
+########################################
+
 
 ## Function to convert SQL result -> Row
-proc rowizer(rec: seq[string]): Row =
+proc rowizer*(rec: seq[string]): Row =
   result = Row(id: parseInt(rec[0]), page: rec[1], is_puzzle: rec[2])
 
 ##Function to get text for page
-proc getEnText(n : int) : string =
-  let db = open("localhost", "postgres", "Ab123456", "nim_tut")
+proc getEnText*(n : int) : string =
+  let db = open(conn, user, pass, sche)
   result = db.getRow(sql"select en_page from texts where id = ?", n)[0]
   db.close()
 
-  proc getHuText(n : int) : string =
-    let db = open("localhost", "postgres", "Ab123456", "nim_tut")
-    result = db.getRow(sql"select hu_page from texts where id = ?", n)[0]
-    db.close()
+proc getHuText*(n : int) : string =
+  let db = open(conn, user, pass, sche)
+  result = db.getRow(sql"select hu_page from texts where id = ?", n)[0]
+  db.close()
 
-# proc getIsPuzzle(n : int) : bool =
-#   let db = open("localhost", "postgres", "Ab123456", "nim_tut")
-#   if db.getRow(sql"select is_puzzle from texts where id = ?", n)[0] == "f":
-#     db.close()
-#     return false
-#   db.close()
-#   return true
+proc getSectionId*(n : int) : int =
+  let db = open(conn, user, pass, sche)
+  result = parseInt(db.getRow(sql"select section_id from texts where id = ?", n)[0])
+  db.close()
+
+proc getSectionLen*(n : int) : int =
+  let db = open(conn, user, pass, sche)
+  result = parseInt(db.getRow(sql"select count(*) from texts where section_id = ?", n)[0])
+  db.close()
+
+########################################
+
+
+proc getAnswer*(text_id : int) : char =
+  let db = open(conn, user, pass, sche)
+  result = db.getRow(sql"select answer from sections where id = (select section_id from texts where id = ?)", text_id)[0][0]
+  db.close()
+
+proc getAnswer*(section_name : string) : char =
+  let db = open(conn, user, pass, sche)
+  result = db.getRow(sql"select answer from sections where section_name = ?", section_name)[0][0]
+  db.close()
+
+
+proc getQuestion*(n : int) : string =
+  let db = open(conn, user, pass, sche)
+  result = db.getRow(sql"select question from sections where id = (select section_id from texts where id = ?)", n)[0]
+  db.close()
+
+
+proc getSectionNameForText*(n : int) : string =
+  let db = open(conn, user, pass, sche)
+  result = db.getRow(sql"select section_name from sections where id = (select section_id from texts where id = ?)", n)[0]
+  db.close()
+
+proc getSectionNameForSection*(n : int) : string =
+  let db = open(conn, user, pass, sche)
+  result = db.getRow(sql"select section_name from sections where id = ?", n)[0]
+  db.close()
+
+proc getLineNumber*(s : string) : int =
+  let db = open(conn, user, pass, sche)
+  result = parseInt(db.getRow(sql("select count(*) from " & s))[0])
+  db.close()
