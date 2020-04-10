@@ -1,13 +1,10 @@
 #Tóth Bence WDFP8X
-import db_postgres
-import strutils
+import db_postgres, strutils, db_common
 include ../model/row_model
 
 var
   conn, user, pass, sche : string
 
-conn = "localhost"
-user = "postgres"
 pass = "Ab123456"
 sche = "nim_tut"
 
@@ -15,15 +12,22 @@ sche = "nim_tut"
 ########################################
 
 
+
+
 ## Function to convert SQL result -> Row
 proc rowizer*(rec: seq[string]): Row =
   result = Row(id: parseInt(rec[0]), page: rec[1], is_puzzle: rec[2])
 
 ##Function to get text for page
-proc getEnText*(n : int) : string =
+proc getEnText(n : int) : string =
   let db = open(conn, user, pass, sche)
-  result = db.getRow(sql"select en_page from texts where id = ?", n)[0]
+  echo db.getRow(sql"select en_page from texts")[0]
+  #result = db.getRow(sql"select en_page from texts where id = ?", n)[0]
   db.close()
+
+
+echo getEnText(0)
+
 
 proc getHuText*(n : int) : string =
   let db = open(conn, user, pass, sche)
