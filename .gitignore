@@ -31,8 +31,9 @@ nimcache/
 .history
 
 # End of https://www.gitignore.io/api/nim,executable,visualstudiocode
-section*.*
+section*.json
 DB.txt
 t.nim
 t1.nim
 test.js
+postgreSQLController.nim
