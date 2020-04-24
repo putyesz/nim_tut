@@ -34,3 +34,5 @@ nimcache/
 section*.*
 DB.txt
 t.nim
+t1.nim
+test.js

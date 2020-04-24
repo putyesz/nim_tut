@@ -1,5 +1,4 @@
 ## Tóth Bence WDFP8X
-import controller/mainController
+include controller/mainController
 
-when isMainModule:
-  startApp()
+startApp()
