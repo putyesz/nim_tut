@@ -12,8 +12,7 @@
 >
 >[MongoPool](https://github.com/JohnAD/mongopool) -nimble install mongopool
 >
->[MongoDB](https://www.mongodb.com/download-center/community), ebből én a community editiont használtam localhost-on, a repoba feltöltöm a DB.json fájlt, amely tartalmazza az adatbázis tartalát, így könnyen importálható az.
-
+>[MongoDB](https://www.mongodb.com/download-center/community), ebből én a community editiont használtam localhost-on, a repoba feltöltöttem a sources mappába a collectionExportxxxxxxxx.json és az educationalMaterial.json fájlokat, amely tartalmazzák az adatbázis tartalát, így könnyen importálható az.
 
 *Még szükséges lenne implementálni egy kis hibakezelést, viszont a program magja működőképes.*
 
@@ -34,7 +33,7 @@
 >
 >[MongoPool](https://github.com/JohnAD/mongopool) -nimble install mongopool
 >
->[MongoDB](https://www.mongodb.com/download-center/community), personally, I used the community edition on localhost, I will upload a JSON file which contains the database's content, therefore it can be easily imported.
+>[MongoDB](https://www.mongodb.com/download-center/community), personally, I used the community edition on localhost, I have uploaded a JSON file in the sources directory which contains the database's content, therefore it can be easily imported.
 
 
 *Still need some exceptionhandling, but basically the program works.*

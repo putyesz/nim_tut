@@ -7,7 +7,7 @@ var db = getNextConnection()
 
 var secLen = db.find("sections").returnMany().len()
 
-proc getSection*(order : int) : Bson =
+proc getSection(order : int) : Bson =
   ## Gets a whole section from the db, returns a Bson object
   ## /usage: getSection(n: int (0 - 10))/
   result = @@{}
@@ -20,11 +20,10 @@ proc getSection*(order : int) : Bson =
 proc getSectionByTitle*(title : string) : int =
   ## Returns a Section by the given title
   ## /usage getSectionByTitle(s: string)/
-  if title != "-":
+  if title != "-1":
     result = db.find("sections", @@{"title": title}).returnOne()["order"]
   else:
     result = -1
-    echo "Could not load Section by Title!"
 
 
 proc getSectionNames*() : seq[string] =
@@ -60,7 +59,7 @@ proc getSectionNamesAndProgress*() : seq[tuple[sectionName: string, sectionProgr
 
 
 
-proc getTitle*(section: Bson) : string =
+proc getTitle(section: Bson) : string =
   ## Returns a Sections title
   ## /usage getTitle(getSection(n: int(0 - 10)))/
   result = section["title"]
@@ -68,7 +67,7 @@ proc getTitle*(section: Bson) : string =
 proc getTitle*(order: int) : string =
   ## Returns the orderth Sections title
   ## /usage getTitle(n: int(0 - 10))/
-  if order < secLen and order > 0:
+  if order < secLen and order >= 0:
     result = getTitle(getSection(order))
   else:
     result = ""
@@ -76,7 +75,7 @@ proc getTitle*(order: int) : string =
 
 
 
-proc getTexts*(section : Bson) : seq[string] =
+proc getTexts(section : Bson) : seq[string] =
   ## Converts a section Bson input to sequence of texts
   ## /usage: getTexts(getSection(n: int (0 - 10)))/
   for i in 0..<len(section["texts"]):
@@ -85,14 +84,21 @@ proc getTexts*(section : Bson) : seq[string] =
 proc getTexts*(order : int) : seq[string] =
   ## Converts a section Bson input to sequence of texts
   ## /usage: getTexts(n: int (0 - 10))/
-  if order > 0 and order < secLen:
+  if order >= 0 and order < secLen:
     result = getTexts(getSection(order))
   else:
     result = @[]
     echo "Could not load Texts!"
 
 
-proc getExercises*(section : Bson) : seq[tuple[exercise: string, inputType: string, answer: string]] =
+proc hasExercise*(section : int) : bool =
+  if "exercises" in getSection(section):
+    result = true
+  else:
+    result = false
+
+
+proc getExercises(section : Bson) : seq[tuple[exercise: string, inputType: string, answer: string]] =
   ## Gets the exercises from the section, returns a tuple with all the necessary informations
   ## /usage getExercises(getSection(n : int (0 - 10)))/
   type returnExercise = tuple[exercise: string, inputType: string, answer: string]
@@ -101,17 +107,22 @@ proc getExercises*(section : Bson) : seq[tuple[exercise: string, inputType: stri
     n = section["exercises"][ex]["exercise"]
     t = section["exercises"][ex]["type"]
     a = section["exercises"][ex]["answer"]
-    var exer : returnExercise = (n, t, a)
+    let exer : returnExercise = (n, t, a)
     result.add(exer)
 
 proc getExercises*(order : int) : seq[tuple[exercise: string, inputType: string, answer: string]] =
   ## Gets the exercises from the section, returns a tuple with all the necessary informations
   ## /usage getExercises(n : int (0 - 10))/
-  if order > 0 and order < secLen:
+  if order > 1 and order < secLen:
     result = getExercises(getSection(order))
   else:
     result = @[]
-    echo "Could not load Exercises!"
 
+
+
+proc setProgress*(sectionNumber: int, value: int)=
+  let section = getSection(sectionNumber)
+  section["progress"] = value
+  var update = db.replaceOne("sections", @@{"_id": section["_id"]}, section)
 
 releaseConnection(db)

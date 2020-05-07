@@ -56,30 +56,25 @@ proc radioButtonWindow *(question: string) : string=
   radioMessage1.wEvent_RadioButtonOn do ():
     buttonOK.wEvent_Button do ():
       res = "a"
+      frame.destroy()
 
   radioMessage2.wEvent_RadioButtonOn do ():
     buttonOK.wEvent_Button do ():
       res = "b"
+      frame.destroy()
 
   radioMessage3.wEvent_RadioButtonOn do ():
     buttonOK.wEvent_Button do ():
       res = "c"
+      frame.destroy()
 
   radioMessage4.wEvent_RadioButtonOn do ():
     buttonOK.wEvent_Button do ():
       res = "d"
-
-  ## Esetleg lehetne olyat is csinálni, hogy 4 gomb lenne a négyféle válasszal és azok dobnák be azonnal a kis ablakot, hogy sikeres-e vagy sem
-  ##
-  ## a felhasznált radio event a dialog fájlban a MessageDialog
-  ##
-  ## valahogy vissza kell adni a kiválasztott radiobutton értékét a controller osztálynak, aki megkeresi az adatbázisban, hogy a válasz helyes, e vagy sem
-  ## ez az üzenet kezelhető itt is vagy pedig a controller adja vissza a kész üzenetet
-  ## lehet az utóbbi tanácsosabb lenne
+      frame.destroy()
 
   layout()
   frame.center()
   frame.show()
   app.mainLoop()
   result = res
-# radioButtonWindow()

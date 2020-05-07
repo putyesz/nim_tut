@@ -25,6 +25,11 @@ proc tutorialWindow *(title: string, text : string, progress: int, length: int):
 
 
   let buttonPrev  = Button(panel, label="Prev")
+  if progress == 0:
+    buttonPrev.disable
+  else:
+    buttonPrev.enable()
+
   let gauge = Gauge(panel, value=progress, range=length)
   var res = 0
 

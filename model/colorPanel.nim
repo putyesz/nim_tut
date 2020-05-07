@@ -70,7 +70,7 @@ wClass(wColorPanel of wPanel):
           pos.y in (rect.y .. rect.y + rect.height):
         return name
 
-  proc onKeyMouse*(self: wColorPanel, event: wEvent) =
+  proc onMouse*(self: wColorPanel, event: wEvent) =
     let oldFocusColor = self.mFocusColor
     self.mFocusColor = self.getSectionName(event.mousePos)
 
@@ -113,4 +113,4 @@ wClass(wColorPanel of wPanel):
     self.wEvent_Paint do (): self.onPaint()
     self.wEvent_Size do (): self.refresh(false)
     self.wEvent_ScrollWin do (): self.refresh(false)
-    self.wEvent_MouseMove do (event: wEvent): self.onKeyMouse(event)
+    self.wEvent_MouseMove do (event: wEvent): self.onMouse(event)

@@ -10,7 +10,7 @@ else:
   import wNim/[wApp, wButton, wFrame, wPanel, wIcon, wStaticBox]
 
 proc sectionsWindow* (table: OrderedTable[string, int]) : string =
-  var res = "-"
+  var res = "-1"
   let app = App()
   let frame = Frame(title="Nim Tutorial",  size=(840, 670))
   frame.minSize = (840, 670)
@@ -34,10 +34,10 @@ proc sectionsWindow* (table: OrderedTable[string, int]) : string =
 
   sectionsPanel.wEvent_LeftDown do (event: wEvent):
     res = sectionsPanel.getSectionName(event.mousePos)
-    frame.destroy()
+    if res != "" :
+      frame.destroy()
 
   exitButton.wEvent_Button do (event: wEvent):
-    res = "-1"
     frame.destroy()
 
   layout()

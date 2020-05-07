@@ -10,9 +10,9 @@ proc myEscape(str: string): string =
   result = str.replace("\\n", $'\n').replace("\\t", $'\t')
 
 proc exercisesControll*(n: int)=
-  # var i : tuple[exercise: string, inputType: string, answer: string]
   var score: int = 0
-  for i in getExercises(n):
+  let exercises = getExercises(n)
+  for i in exercises:
     var ans : string
     case i.inputType
     of "radio":
@@ -22,7 +22,11 @@ proc exercisesControll*(n: int)=
 
     if ans == i.answer:
       score += 1
-    #   MessageDialog(message="Good Answer", style=wOk).display()
-    # else:
-    #   MessageDialog(message="Bad Answer", style=wOk).display()
-  MessageDialog(caption="Your score is:",message= $score & "/" & $len(getExercises(n)), style=wOk).display()
+    #[
+      MessageDialog(message="Good Answer", style=wOk).display()
+    else:
+      MessageDialog(message="Bad Answer", style=wOk).display()
+    ]#
+  MessageDialog(caption="Your score is:",
+                message= $score & "/" & $len(exercises),
+                style=wOk).display()

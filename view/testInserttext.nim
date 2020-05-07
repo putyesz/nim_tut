@@ -1,5 +1,7 @@
 ## Tóth Bence WDFP8X
 
+import strutils
+
 when defined(aio):
   import wNim
 else:
@@ -44,12 +46,12 @@ proc insertTextWindow *(question: string) : string=
       buttonOK.disable()
 
   buttonOK.wEvent_Button do ():
-    res = textctrl.getValue()
+    res = textctrl.getValue().toLower
     frame.destroy()
 
   textctrl.wEvent_TextEnter do ():
     if textctrl.value != "":
-      res = textctrl.getValue()
+      res = textctrl.getValue().toLower
       frame.destroy()
 
   layout()
@@ -57,5 +59,3 @@ proc insertTextWindow *(question: string) : string=
   frame.show()
   app.mainLoop()
   result = res
-
-# echo insertTextWindow("semmi")

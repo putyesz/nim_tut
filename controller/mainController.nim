@@ -1,8 +1,9 @@
 ## Tóth Bence WDFP8X
 
+import exercisesController
+import mongoDBController
 import sectionsController
 import tutorialController
-import exercisesController
 
 import strutils
 
@@ -13,8 +14,10 @@ proc myUnEscape*(str: string): string =
   result = str.replace($'\n', "\\n").replace($'\t', "\\t")
 
 proc startApp()=
-  let section = sectionsControll()
-  echo section
-  let tutorial = tutorialControll(section)
-  if tutorial == "2":
-    exercisesControll(section)
+  var section = sectionsControll()
+  while section != -1:
+    var tutorial = tutorialControll(section)
+    setProgress(section, tutorial)
+    if tutorial == 2 and hasExercise(section):
+      exercisesControll(section)
+    section = sectionsControll()
