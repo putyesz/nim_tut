@@ -123,6 +123,6 @@ proc getExercises*(order : int) : seq[tuple[exercise: string, inputType: string,
 proc setProgress*(sectionNumber: int, value: int)=
   let section = getSection(sectionNumber)
   section["progress"] = value
-  var update = db.replaceOne("sections", @@{"_id": section["_id"]}, section)
+  discard db.replaceOne("sections", @@{"_id": section["_id"]}, section)
 
 releaseConnection(db)
